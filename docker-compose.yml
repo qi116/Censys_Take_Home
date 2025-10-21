@@ -1,0 +1,22 @@
+version: '3.9'
+
+services:
+  grpc-server:
+    build:
+      context: .
+      dockerfile: ./storage/Dockerfile
+    container_name: grpc_server
+    ports:
+      - "50000:50000"
+
+  rest-server:
+    build:
+      context: .
+      dockerfile: ./apis/Dockerfile
+    container_name: rest_server
+    ports:
+      - "8080:8080"
+    depends_on:
+      - grpc-server
+    environment:
+      - GRPC_SERVER_ADDR=grpc-server:50000

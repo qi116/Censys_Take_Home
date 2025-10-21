@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package gprc;
+
+option go_package = "censys_take_home/grpc;grpc";
+
+service GRPC{
+    rpc SetValue(SetRequest) returns (SetResponse);
+    rpc GetValue(GetRequest) returns (GetResponse);
+    rpc DeleteValue(DeleteRequest) returns (DeleteResponse);
+}
+
+message SetRequest {
+    string key = 1;
+    string value = 2;
+}
+
+message SetResponse {
+    string result = 1; // indicate if value is updated or inserted a new one
+}
+
+message GetRequest {
+    string key = 1;
+}
+
+message GetResponse {
+    string key = 1;
+    string value = 2;
+}
+
+message DeleteRequest {
+    string key = 1;
+}
+
+message DeleteResponse {
+    string result = 1; // indicate if the value existed and was deleted or didn't exist
+}
+
