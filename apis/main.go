@@ -55,6 +55,9 @@ func (s *grpcServer) printTest(c *gin.Context) { // defining function like this 
 	c.JSON(http.StatusOK, gin.H{"message": "printTest called"})
 }
 
+/*
+Calls GetValue over gRPC and returns response
+*/
 func (s *grpcServer) getValue(c *gin.Context) {
 	key := c.Param("key")
 	fmt.Println("Get value called with key: " + key)
@@ -69,6 +72,9 @@ func (s *grpcServer) getValue(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Get called", "key": key, "value": resp.Value})
 }
 
+/*
+Calls SetValue over gRPC and returns response
+*/
 func (s *grpcServer) setValue(c *gin.Context) {
 	var body struct {
 		Key   string `json:"key" binding:"required"` //required key
@@ -91,6 +97,9 @@ func (s *grpcServer) setValue(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Set called", "key": body.Key, "value": body.Value, "response": resp.Result})
 }
 
+/*
+Calls DeleteValue over gRPC and returns response
+*/
 func (s *grpcServer) deleteValue(c *gin.Context) {
 	key := c.Param("key")
 	fmt.Println("Delete value called with key: " + key)

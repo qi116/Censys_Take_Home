@@ -17,6 +17,9 @@ type server struct {
 	storage map[string]string
 }
 
+/*
+gRPC setValue. Locks mutex for writing, and adds/updates key value pair
+*/
 func (s *server) SetValue(ctx context.Context, req *pb.SetRequest) (*pb.SetResponse, error) {
 	s.mutex.Lock()         // Do a write lock
 	defer s.mutex.Unlock() // unlock on exit
@@ -32,6 +35,10 @@ func (s *server) SetValue(ctx context.Context, req *pb.SetRequest) (*pb.SetRespo
 	return &pb.SetResponse{Result: result}, nil
 }
 
+/*
+gRPC getValue. Locks mutex for reading, and retrieves value for key.
+Returns value "" if key does not exist. (Could probably have a smarter does not exist indication, but we can't store empty values anyways)
+*/
 func (s *server) GetValue(ctx context.Context, req *pb.GetRequest) (*pb.GetResponse, error) {
 	s.mutex.RLock()         // Do a read lock
 	defer s.mutex.RUnlock() // unlock on exit
@@ -46,6 +53,9 @@ func (s *server) GetValue(ctx context.Context, req *pb.GetRequest) (*pb.GetRespo
 	return &pb.GetResponse{Key: req.Key, Value: ""}, nil
 }
 
+/*
+gRPC deleteValue. Locks mutex for writing, and deletes key value pair if it exists.
+*/
 func (s *server) DeleteValue(ctx context.Context, req *pb.DeleteRequest) (*pb.DeleteResponse, error) {
 	s.mutex.Lock()         // Do a write lock
 	defer s.mutex.Unlock() // unlock on exit

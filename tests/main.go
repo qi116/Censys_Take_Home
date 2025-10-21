@@ -44,6 +44,9 @@ func handleResponse(resp *http.Response, err error) map[string]interface{} {
 	return result
 }
 
+/*
+Helper function to test getValue and compare response value with expectedValue
+*/
 func testGet(key string, expectedValue string) bool {
 	resp, err := http.Get(url + "/getValue/" + key)
 
@@ -60,6 +63,9 @@ func testGet(key string, expectedValue string) bool {
 	return true
 }
 
+/*
+Helper function to test setValue and compare response value with expectedValue
+*/
 func testSet(key string, value string, expectedValue string) bool {
 	body, _ := json.Marshal(map[string]string{
 		"key":   key,
@@ -80,6 +86,9 @@ func testSet(key string, value string, expectedValue string) bool {
 
 }
 
+/*
+Helper function to test deleteValue and compare response value with expectedValue
+*/
 func testDelete(key string, expectedValue string) bool {
 	req, _ := http.NewRequest("DELETE", url+"/deleteValue/"+key, nil)
 	resp, err := http.DefaultClient.Do(req)
